@@ -22,12 +22,44 @@
 <!-- Uncomment Below line if want to use form control WITH form Group  START-->
 <form [formGroup]="profileForm">
   <mat-form-field class="example-full-width">
-    <input matInput [formControl]="name" placeholder="name">
+    <input matInput formControlName="name" placeholder="name" required>
   </mat-form-field>
+
   <mat-form-field class="example-full-width">
-    <textarea matInput placeholder="address" [formControl]="address"></textarea>
+    <input matInput [formControl]="profileForm.controls['email']" placeholder="Email">
+    <mat-error *ngIf="profileForm.controls['email'].invalid">{{getErrorMessage()}}</mat-error>
   </mat-form-field>
-  <button mat-raised-button color="warn" (click)="save()">Add</button>
+
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="address" formControlName="address"></textarea>
+  </mat-form-field>
+  <button mat-raised-button color="warn" [disabled]="profileForm.invalid" (click)="save()">Add</button>
 </form>
+
+<div *ngIf="users.length >0">
+  <h3>User List</h3>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let user of users">
+        <td>{{user?.name}}</td>
+        <td> {{user?.email}}</td>
+        <td> {{user?.address}}</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
 
 <router-outlet></router-outlet>

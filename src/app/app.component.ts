@@ -7,6 +7,10 @@ import { FormControl } from '@angular/forms';
  * Import only If use form group
  */
 import { FormGroup } from '@angular/forms';
+/**
+ * Import only If use form group
+ */
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -30,11 +34,20 @@ export class AppComponent {
    */
   profileForm = new FormGroup({
     name: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
     address: new FormControl('')
   })
 
   constructor() {
   }
+
+
+  getErrorMessage() {
+    return this.profileForm.controls["email"].hasError('required') ? 'You must enter a value' :
+      this.profileForm.controls["email"].hasError('email') ? 'Not a valid email' :
+        '';
+  }
+
 
   save() {
 
@@ -45,9 +58,8 @@ export class AppComponent {
 
     /**
     * Get form control value  WITHOUT group
-    * console.log(this.profileForm.value)
+    * 
     */
-    console.log(this.profileForm.value)
     this.users.push(this.profileForm.value);
   }
 
